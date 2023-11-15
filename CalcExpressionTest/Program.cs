@@ -1,13 +1,15 @@
 ﻿namespace CalcExpressionTest
 {
-	internal class Program
-	{
-		static void Main(string[] args)
-		{
-			SquareExpressionSolver solver = new SquareExpressionSolver(a: 2, b: -6, c: 5);
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            SquareExpressionSolver solver = new SquareExpressionSolver(a: 4, b: -3, c: 9);
 
-			solver.Solve();
+            ComplexNum[] result = solver.Calculate();
 
-		}
-	}
+            Console.WriteLine("Roots: {0} and {1}", result[0], result[1]);
+
+        }
+    }
 }

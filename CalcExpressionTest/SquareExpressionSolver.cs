@@ -6,68 +6,53 @@ using System.Threading.Tasks;
 
 namespace CalcExpressionTest
 {
-	public class SquareExpressionSolver
+    public class SquareExpressionSolver
     {
-	    public double a { get; set; }
-        public double b { get; set; }
-        public double c { get; set; }
+        private double a;
+        private double b;
+        private double c;
 
-        public double D { get; set; }
-
-        public double x1 { get; set; }
-        public double x2 { get; set; }
+        private double? d = null;
 
         public SquareExpressionSolver(double a, double b, double c)
         {
             this.a = a;
             this.b = b;
             this.c = c;
-            D = b * b - (4 * a * c);
         }
 
-        public void Solve()
+        public double Determinate
         {
-            if (D > 0)
+            get
             {
-                x1 = ((-b) + Math.Sqrt(D)) / (2 * a);
-                x2 = ((-b) - Math.Sqrt(D)) / (2 * a);
-                Console.WriteLine($"x1 = {x1}");
-                Console.WriteLine($"x2 = {x2}");
-            }
+                if (d == null)
+                    d = b * b - 4 * a * c;
 
-            else if (D == 0)
-            {
-                x1 = -b / (2 * a);
-                x2 = x1;
-                Console.WriteLine("x = " + x1);
-            }
-
-            else
-            {
-                ComplexNum x1 = new ComplexNum(-b / (2 * a), Math.Sqrt(Math.Abs(D)) / (2 * a));
-                Console.WriteLine($"x1 = {x1.ToString()}");
-                ComplexNum x2 = new ComplexNum(-b / (2 * a), -(Math.Sqrt(Math.Abs(D)) / (2 * a)));
-                Console.WriteLine($"x2 = {x2.ToString()}");
-
+                return d.Value;
             }
         }
 
-        public void Show()
+        public ComplexNum[] Calculate()
         {
+            double d = Determinate;
 
-            Console.Write($"{a}x^2 ");
+            ComplexNum[] roots = new ComplexNum[2];
 
-            if (b > 0)
-                Console.Write($"+ {b}x ");
+            if (d >= 0)
+            {
+                roots[0] = new ComplexNum((-b + Math.Sqrt(d)) / (2 * a), 0);
+                roots[1] = new ComplexNum((-b - Math.Sqrt(d)) / (2 * a), 0);
+            }
+
             else
-                Console.Write($"- {-b}x ");
+            {
+                d = Math.Abs(d);
 
-            if (c > 0)
-                Console.Write($"+ {c} ");
-            else
-                Console.Write($"- {-c} ");
+                roots[0] = new ComplexNum(-b / (2 * a), Math.Sqrt(d) / (2 * a));
+                roots[1] = new ComplexNum(-b / (2 * a), -Math.Sqrt(d) / (2 * a));
+            }
 
-            Console.WriteLine("= 0");
+            return roots;
         }
     }
 }
